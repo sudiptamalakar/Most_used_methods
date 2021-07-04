@@ -2,6 +2,24 @@
 train['Sex_male'] = train.Sex.map({'female':0, 'male':1})
 
 
+//using category
+for i in train.columns:
+    if train[i].dtype=='object':
+        train[i] = train[i].astype('category')
+        train[i] = train[i].cat.codes.astype('int64')
+        
+        
+        
+//using sklearn label encoder
+from sklearn.preprocessing import LabelEncoder
+for i in train.columns:
+    if train[i].dtype=='object':
+        lb_make = LabelEncoder()
+        train[i] = lb_make.fit_transform(train[i])
+        test[i] = lb_make.fit_transform(test[i])
+        
+        
+
 //sklearn Test train split
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split( X, y, test_size=0.1, random_state=4)
